@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ScheduleEditor from "../components/ScheduleEditor";
 import styles from "./page.module.css";
 
@@ -36,13 +37,19 @@ export default function Home() {
     <div className={styles.page}>
       <main className={styles.main}>
         <header className={styles.header}>
-          <span className={styles.classLabel}>
-            Ore 08:00 – 15:00 · Luni — Vineri
-          </span>
+          <div className={styles.logoWrapper}>
+            <Image
+              src="/LogoColegiuRemasteredALB.png"
+              alt="Logo Scoala"
+              width={200}
+              height={200}
+              priority
+              className={styles.schoolLogo}
+            />
+          </div>
           <h1>Școala altfel</h1>
-          <p className={styles.subhead}>
-            Clasele V — XII
-          </p>
+          <p className={styles.subhead}>Clasele V — XII</p>
+          <span className={styles.classLabel}>15.12 – 19.12.2025</span>
         </header>
 
         <ScheduleEditor classGroups={classGroups} days={days} hours={hours} />

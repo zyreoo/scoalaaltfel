@@ -23,7 +23,20 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0 4px;
+}
+
+.schoolLogo {
+  width: clamp(140px, 22vw, 220px);
+  height: auto;
+  filter: drop-shadow(0 25px 60px rgba(0, 0, 0, 0.7));
 }
 
 .classLabel {
@@ -441,6 +454,10 @@
 
   .subhead {
     letter-spacing: 0.04em;
+  }
+
+  .schoolLogo {
+    width: clamp(120px, 45vw, 160px);
   }
 
   .classCardHeader {
