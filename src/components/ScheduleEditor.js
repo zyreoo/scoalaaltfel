@@ -260,7 +260,6 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
                   <article className={styles.classCard} key={className}>
                     <div className={styles.classCardHeader}>
                       <h2>{className}</h2>
-                      <span>orar gol</span>
                     </div>
                     <div className={styles.tableContainer}>
                       {isMobile ? (
