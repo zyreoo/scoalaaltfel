@@ -351,11 +351,12 @@
 .primaryButton,
 .secondaryButton {
   flex: 1;
-  height: 48px;
+  width: 50%;
+  min-height: 54px;
   border: 1px solid #1f1f1f;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 12px;
+  letter-spacing: 0.15em;
+  font-size: 13px;
   cursor: pointer;
 }
 
@@ -471,5 +472,14 @@
 
   .modalActions {
     flex-direction: column;
+    gap: 10px;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    min-height: 58px;
+    font-size: 14px;
+    letter-spacing: 0.12em;
   }
 }
