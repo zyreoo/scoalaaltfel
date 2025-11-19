@@ -21,7 +21,7 @@ const lowerClasses = [
 ];
 
 const upperGrades = ["IX", "X", "XI", "XII"];
-const sections = ["A", "B", "C", "D"];
+const sections = ["A", "B", "C", "D","E"];
 const baseUpperClasses = upperGrades.flatMap((grade) => {
   const orderedSections =
     grade === "IX" ? [...sections, "F"] : sections;
