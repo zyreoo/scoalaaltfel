@@ -15,9 +15,28 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [statusMessage, setStatusMessage] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const allClasses = useMemo(
+    () => classGroups.flatMap((group) => group.classes),
+    [classGroups]
+  );
+  const [activeClass, setActiveClass] = useState(allClasses[0] ?? "");
 
   useEffect(() => {
     void loadEntries();
+  }, []);
+
+  useEffect(() => {
+    setActiveClass((prev) => prev || allClasses[0] || "");
+  }, [allClasses]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const mq = window.matchMedia("(max-width: 768px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener?.("change", update);
+    return () => mq.removeEventListener?.("change", update);
   }, []);
 
   async function loadEntries() {
@@ -144,7 +163,7 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
     setStatusMessage("Câmpurile au fost golite. Introdu o activitate nouă și apasă Salvează.");
   }
 
-  function renderCell(className, day, time) {
+  function renderCellButton(className, day, time) {
     const key = entryKey(className, day, time);
     const entry = entries[key];
     const label = entry
@@ -152,70 +171,131 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
       : "Adaugă activitate";
 
     return (
-      <td key={key}>
-        <button
-          type="button"
-          className={styles.cellButton}
-          onClick={() => handleCellClick(className, day, time)}
-          aria-label={`${className} ${day} ${time}: ${label}`}
-        >
-          {entry ? (
-            <div className={styles.cellContent}>
-              <span className={styles.cellActivity}>{entry.activity}</span>
-              <span className={styles.cellProfessor}>{entry.professor}</span>
+      <button
+        type="button"
+        className={styles.cellButton}
+        onClick={() => handleCellClick(className, day, time)}
+        aria-label={`${className} ${day} ${time}: ${label}`}
+      >
+        {entry ? (
+          <div className={styles.cellContent}>
+            <span className={styles.cellActivity}>{entry.activity}</span>
+            <span className={styles.cellProfessor}>{entry.professor}</span>
+          </div>
+        ) : (
+          <span className={styles.cellPlaceholder}>Adaugă</span>
+        )}
+      </button>
+    );
+  }
+
+  function renderTableCell(className, day, time) {
+    const key = entryKey(className, day, time);
+    return <td key={key}>{renderCellButton(className, day, time)}</td>;
+  }
+
+  function renderMobileSchedule(className) {
+    return (
+      <div className={styles.mobileSchedule}>
+        {days.map((day) => (
+          <div
+            className={styles.mobileDaySection}
+            key={`${className}-${day}`}
+          >
+            <div className={styles.mobileDayHeader}>{day}</div>
+            <div className={styles.mobileTimeGrid}>
+              {hours.map((time) => (
+                <div
+                  className={styles.mobileTimeRow}
+                  key={`${className}-${day}-${time}`}
+                >
+                  <span className={styles.mobileTimeLabel}>{time}</span>
+                  <div className={styles.mobileTimeContent}>
+                    {renderCellButton(className, day, time)}
+                  </div>
+                </div>
+              ))}
             </div>
-          ) : (
-            <span className={styles.cellPlaceholder}>Adaugă</span>
-          )}
-        </button>
-      </td>
+          </div>
+        ))}
+      </div>
     );
   }
 
   return (
     <>
-      <div className={styles.groups}>
-        {orderedGroups.map((group) => (
-          <section className={styles.group} key={group.title}>
-            <div className={styles.groupHeading}>
-              <p>{group.title}</p>
-            </div>
-            <div className={styles.classGrid}>
-              {group.classes.map((className) => (
-                <article className={styles.classCard} key={className}>
-                  <div className={styles.classCardHeader}>
-                    <h2>{className}</h2>
-                    <span>orar gol</span>
-                  </div>
-                  <div className={styles.tableContainer}>
-                    <table className={styles.scheduleTable}>
-                      <thead>
-                        <tr>
-                          <th scope="col">Ora</th>
-                          {days.map((day) => (
-                            <th scope="col" key={`${className}-${day}`}>
-                              {day}
-                            </th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {hours.map((time) => (
-                          <tr key={`${className}-${time}`}>
-                            <th scope="row">{time}</th>
-                            {days.map((day) =>
-                              renderCell(className, day, time)
-                            )}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </article>
+      {isMobile && allClasses.length > 0 && (
+        <div className={styles.mobileControls}>
+          <label>
+            <span>Selectează clasa</span>
+            <select
+              value={activeClass}
+              onChange={(event) => setActiveClass(event.target.value)}
+              className={styles.mobileSelect}
+            >
+              {allClasses.map((className) => (
+                <option value={className} key={className}>
+                  {className}
+                </option>
               ))}
-            </div>
-          </section>
-        ))}
+            </select>
+          </label>
+        </div>
+      )}
+
+      <div className={styles.groups}>
+        {orderedGroups.map((group) => {
+          const visibleClasses = group.classes.filter(
+            (className) => !isMobile || className === activeClass
+          );
+          if (isMobile && visibleClasses.length === 0) return null;
+
+          return (
+            <section className={styles.group} key={group.title}>
+              <div className={styles.groupHeading}>
+                <p>{group.title}</p>
+              </div>
+              <div className={styles.classGrid}>
+                {visibleClasses.map((className) => (
+                  <article className={styles.classCard} key={className}>
+                    <div className={styles.classCardHeader}>
+                      <h2>{className}</h2>
+                      <span>orar gol</span>
+                    </div>
+                    <div className={styles.tableContainer}>
+                      {isMobile ? (
+                        renderMobileSchedule(className)
+                      ) : (
+                        <table className={styles.scheduleTable}>
+                          <thead>
+                            <tr>
+                              <th scope="col">Ora</th>
+                              {days.map((day) => (
+                                <th scope="col" key={`${className}-${day}`}>
+                                  {day}
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {hours.map((time) => (
+                              <tr key={`${className}-${time}`}>
+                                <th scope="row">{time}</th>
+                                {days.map((day) =>
+                                  renderTableCell(className, day, time)
+                                )}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          );
+        })}
       </div>
 
       {modalOpen && (

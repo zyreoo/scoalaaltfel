@@ -53,6 +53,10 @@
   gap: 56px;
 }
 
+.mobileControls {
+  display: none;
+}
+
 .group {
   display: flex;
   flex-direction: column;
@@ -111,6 +115,7 @@
   text-align: left;
   cursor: pointer;
   display: block;
+  min-height: 64px;
 }
 
 .cellButton:focus-visible {
@@ -127,6 +132,7 @@
 .cellActivity {
   font-weight: 600;
   color: #f5f5f5;
+  word-break: break-word;
 }
 
 .cellProfessor {
@@ -134,6 +140,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #9ca3af;
+  word-break: break-word;
 }
 
 .cellPlaceholder {
@@ -192,6 +199,51 @@
 
 .scheduleTable tr:nth-child(odd) td {
   background: #080808;
+}
+
+.mobileSchedule {
+  display: none;
+}
+
+.mobileDaySection {
+  border: 1px solid #1f1f1f;
+  padding: 18px 20px;
+  background: linear-gradient(140deg, #050505, #080909);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mobileDayHeader {
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #f5f5f5;
+}
+
+.mobileTimeGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobileTimeRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mobileTimeLabel {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+.mobileTimeContent {
+  border: 1px solid #1f1f1f;
+  padding: 12px;
+  background: #040404;
 }
 
 .modalOverlay {
@@ -323,6 +375,58 @@
   .scheduleTable td {
     padding: 16px 12px;
     font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobileControls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid #1f1f1f;
+    padding: 20px;
+    background: #040404;
+  }
+
+  .mobileControls label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #9ca3af;
+  }
+
+  .mobileSelect {
+    border: 1px solid #1f1f1f;
+    background: #0b0b0b;
+    color: #fff;
+    padding: 12px 14px;
+    font-size: 15px;
+  }
+
+  .groups {
+    gap: 32px;
+  }
+
+  .groupHeading p {
+    font-size: 12px;
+    letter-spacing: 0.24em;
+  }
+
+  .scheduleTable {
+    display: none;
+  }
+
+  .mobileSchedule {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .tableContainer {
+    overflow: visible;
   }
 }
 
