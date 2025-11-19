@@ -22,10 +22,12 @@ const lowerClasses = [
 
 const upperGrades = ["IX", "X", "XI", "XII"];
 const sections = ["A", "B", "C", "D"];
-const baseUpperClasses = upperGrades.flatMap((grade) =>
-  sections.map((section) => `Clasa a ${grade}-a ${section}`)
-);
-const upperClasses = [...baseUpperClasses, "Clasa a IX-a F"];
+const baseUpperClasses = upperGrades.flatMap((grade) => {
+  const orderedSections =
+    grade === "IX" ? [...sections, "F"] : sections;
+  return orderedSections.map((section) => `Clasa a ${grade}-a ${section}`);
+});
+const upperClasses = baseUpperClasses;
 
 const classGroups = [
   { title: "Clasele V – VIII", classes: lowerClasses },
