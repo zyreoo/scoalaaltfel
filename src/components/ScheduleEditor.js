@@ -82,15 +82,42 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
     setSaving(true);
     setStatusMessage(null);
 
-    const payload = {
-      className: selectedCell.className,
-      day: selectedCell.day,
-      time: selectedCell.time,
-      activity: formValues.activity.trim(),
-      professor: formValues.professor.trim(),
-    };
+    const activity = formValues.activity.trim();
+    const professor = formValues.professor.trim();
 
     try {
+      if (!activity && !professor) {
+        const response = await fetch("/api/schedule", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            className: selectedCell.className,
+            day: selectedCell.day,
+            time: selectedCell.time,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Nu am putut șterge slotul.");
+        }
+
+        setEntries((prev) => {
+          const next = { ...prev };
+          delete next[selectedCell.key];
+          return next;
+        });
+        closeModal();
+        return;
+      }
+
+      const payload = {
+        className: selectedCell.className,
+        day: selectedCell.day,
+        time: selectedCell.time,
+        activity,
+        professor,
+      };
+
       const response = await fetch("/api/schedule", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -113,35 +140,8 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
 
   async function handleClearSlot() {
     if (!selectedCell) return;
-    setSaving(true);
-    setStatusMessage(null);
-
-    try {
-      const response = await fetch("/api/schedule", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          className: selectedCell.className,
-          day: selectedCell.day,
-          time: selectedCell.time,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Nu am putut șterge slotul.");
-      }
-
-      setEntries((prev) => {
-        const next = { ...prev };
-        delete next[selectedCell.key];
-        return next;
-      });
-      closeModal();
-    } catch (error) {
-      setStatusMessage(error.message);
-    } finally {
-      setSaving(false);
-    }
+    setFormValues(blankForm);
+    setStatusMessage("Câmpurile au fost golite. Introdu o activitate nouă și apasă Salvează.");
   }
 
   function renderCell(className, day, time) {
