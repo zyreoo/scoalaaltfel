@@ -10,13 +10,13 @@
 
 .main {
   width: 100%;
-  max-width: 1360px;
+  max-width: 1100px;
   border: 1px solid #1c1c1c;
   background: #050505;
-  padding: 64px 72px;
+  padding: 48px 40px;
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 40px;
 }
 
 .header {
@@ -110,17 +110,17 @@
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
-  min-width: 820px;
+  min-width: 100%;
 }
 
 .scheduleTable th,
 .scheduleTable td {
   border: 1px solid #1f1f1f;
-  padding: 26px 22px;
+  padding: 22px 18px;
   text-align: left;
   vertical-align: top;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .scheduleTable thead th {
@@ -142,7 +142,7 @@
 
 .scheduleTable td {
   color: #d6d6d6;
-  min-height: 96px;
+  min-height: 80px;
 }
 
 .scheduleTable tr:nth-child(even) td {
@@ -155,7 +155,7 @@
 
 @media (max-width: 900px) {
   .main {
-    padding: 40px 28px;
+    padding: 36px 24px;
   }
 
   .subhead {
@@ -164,7 +164,8 @@
 
   .scheduleTable th,
   .scheduleTable td {
-    padding: 14px;
+    padding: 16px 12px;
+    font-size: 14px;
   }
 }
 
@@ -179,10 +180,6 @@
 
   .subhead {
     letter-spacing: 0.04em;
-  }
-
-  .scheduleTable {
-    min-width: 560px;
   }
 
   .classCardHeader {
