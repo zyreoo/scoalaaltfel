@@ -41,7 +41,7 @@ export default function Home() {
           </span>
           <h1>Școala altfel</h1>
           <p className={styles.subhead}>
-            Clasele V — XII · completare ulterioară a activităților
+            Clasele V — XII
           </p>
         </header>
 
