@@ -266,12 +266,6 @@ export default function ScheduleEditor({
     <>
       {!isMobile && allClasses.length > 0 && (
         <div className={styles.desktopControls}>
-          <div className={styles.desktopControlsCopy}>
-            <p className={styles.desktopControlsEyebrow}>Navigare rapidă</p>
-            <p className={styles.desktopControlsBody}>
-              Alege o clasă și tabelul ei devine vizibil instant.
-            </p>
-          </div>
           <label
             className={styles.desktopSelectWrapper}
             htmlFor="class-select-desktop"
