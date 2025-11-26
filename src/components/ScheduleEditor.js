@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "../app/page.module.css";
 
 const blankForm = {
@@ -8,7 +8,12 @@ const blankForm = {
   professor: "",
 };
 
-export default function ScheduleEditor({ classGroups, days, hours }) {
+export default function ScheduleEditor({
+  classGroups,
+  days,
+  hours,
+  classHourLabelOverrides = {},
+}) {
   const [entries, setEntries] = useState({});
   const [selectedCell, setSelectedCell] = useState(null);
   const [formValues, setFormValues] = useState(blankForm);
@@ -21,6 +26,7 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
     [classGroups]
   );
   const [activeClass, setActiveClass] = useState(allClasses[0] ?? "");
+  const classRefs = useRef({});
 
   useEffect(() => {
     void loadEntries();
@@ -28,6 +34,15 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
 
   useEffect(() => {
     setActiveClass((prev) => prev || allClasses[0] || "");
+  }, [allClasses]);
+
+  useEffect(() => {
+    const refs = classRefs.current;
+    Object.keys(refs).forEach((className) => {
+      if (!allClasses.includes(className)) {
+        delete refs[className];
+      }
+    });
   }, [allClasses]);
 
   useEffect(() => {
@@ -70,6 +85,11 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
 
   function entryKey(className, day, time) {
     return `${className}|${day}|${time}`;
+  }
+
+  function getTimeLabel(className, time) {
+    if (!className || !time) return time;
+    return classHourLabelOverrides[className]?.[time] ?? time;
   }
 
   function handleCellClick(className, day, time) {
@@ -170,12 +190,13 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
       ? `${entry.activity} — ${entry.professor}`
       : "Adaugă activitate";
 
+    const displayTime = getTimeLabel(className, time);
     return (
       <button
         type="button"
         className={styles.cellButton}
         onClick={() => handleCellClick(className, day, time)}
-        aria-label={`${className} ${day} ${time}: ${label}`}
+        aria-label={`${className} ${day} ${displayTime}: ${label}`}
       >
         {entry ? (
           <div className={styles.cellContent}>
@@ -209,7 +230,9 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
                   className={styles.mobileTimeRow}
                   key={`${className}-${day}-${time}`}
                 >
-                  <span className={styles.mobileTimeLabel}>{time}</span>
+                  <span className={styles.mobileTimeLabel}>
+                    {getTimeLabel(className, time)}
+                  </span>
                   <div className={styles.mobileTimeContent}>
                     {renderCellButton(className, day, time)}
                   </div>
@@ -222,15 +245,66 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
     );
   }
 
+  function registerClassRef(className, node) {
+    if (!node) {
+      delete classRefs.current[className];
+      return;
+    }
+    classRefs.current[className] = node;
+  }
+
+  function handleClassSelection(className, { scrollToCard = false } = {}) {
+    if (!className) return;
+    setActiveClass(className);
+    if (!isMobile && scrollToCard) {
+      const target = classRefs.current[className];
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
   return (
     <>
-      {isMobile && allClasses.length > 0 && (
-        <div className={styles.mobileControls}>
-          <label>
+      {!isMobile && allClasses.length > 0 && (
+        <div className={styles.desktopControls}>
+          <div className={styles.desktopControlsCopy}>
+            <p className={styles.desktopControlsEyebrow}>Navigare rapidă</p>
+            <p className={styles.desktopControlsBody}>
+              Alege o clasă și tabelul ei devine vizibil instant.
+            </p>
+          </div>
+          <label
+            className={styles.desktopSelectWrapper}
+            htmlFor="class-select-desktop"
+          >
             <span>Selectează clasa</span>
             <select
+              id="class-select-desktop"
               value={activeClass}
-              onChange={(event) => setActiveClass(event.target.value)}
+              onChange={(event) =>
+                handleClassSelection(event.target.value, {
+                  scrollToCard: true,
+                })
+              }
+              className={styles.desktopSelect}
+            >
+              {allClasses.map((className) => (
+                <option value={className} key={className}>
+                  {className}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+      )}
+
+      {isMobile && allClasses.length > 0 && (
+        <div className={styles.mobileControls}>
+          <label htmlFor="class-select-mobile">
+            <span>Selectează clasa</span>
+            <select
+              id="class-select-mobile"
+              value={activeClass}
+              onChange={(event) => handleClassSelection(event.target.value)}
               className={styles.mobileSelect}
             >
               {allClasses.map((className) => (
@@ -257,7 +331,11 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
               </div>
               <div className={styles.classGrid}>
                 {visibleClasses.map((className) => (
-                  <article className={styles.classCard} key={className}>
+                  <article
+                    className={styles.classCard}
+                    key={className}
+                    ref={(node) => registerClassRef(className, node)}
+                  >
                     <div className={styles.classCardHeader}>
                       <h2>{className}</h2>
                     </div>
@@ -279,7 +357,9 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
                           <tbody>
                             {hours.map((time) => (
                               <tr key={`${className}-${time}`}>
-                                <th scope="row">{time}</th>
+                                <th scope="row">
+                                  {getTimeLabel(className, time)}
+                                </th>
                                 {days.map((day) =>
                                   renderTableCell(className, day, time)
                                 )}
@@ -304,7 +384,8 @@ export default function ScheduleEditor({ classGroups, days, hours }) {
               <div>
                 <p>{selectedCell?.className}</p>
                 <h3>
-                  {selectedCell?.day} · {selectedCell?.time}
+                  {selectedCell?.day} ·{" "}
+                  {getTimeLabel(selectedCell?.className, selectedCell?.time)}
                 </h3>
               </div>
               <button

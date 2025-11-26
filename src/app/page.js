@@ -12,6 +12,28 @@ const hours = [
   "13:00 - 14:00",
   "14:00 - 15:00",
 ];
+const afternoonShiftOffsetHours = 5;
+
+function shiftTime(time, offsetHours) {
+  const [hourString, minuteString] = time.split(":");
+  const baseHour = Number(hourString);
+  const newHour = baseHour + offsetHours;
+  const paddedHour = String(newHour).padStart(2, "0");
+  const paddedMinute = minuteString?.padStart(2, "0") ?? "00";
+  return `${paddedHour}:${paddedMinute}`;
+}
+
+function shiftRange(range, offsetHours) {
+  const [start, end] = range.split(" - ");
+  return `${shiftTime(start, offsetHours)} - ${shiftTime(end, offsetHours)}`;
+}
+
+function buildDualLabelMap(rangeList, offsetHours) {
+  return rangeList.reduce((acc, range) => {
+    acc[range] = `${range} / ${shiftRange(range, offsetHours)}`;
+    return acc;
+  }, {});
+}
 
 const lowerClasses = [
   "Clasa a V-a",
@@ -21,13 +43,23 @@ const lowerClasses = [
 ];
 
 const upperGrades = ["IX", "X", "XI", "XII"];
-const sections = ["A", "B", "C", "D"];
+const sections = ["A", "B", "C", "D", "E"];
 const baseUpperClasses = upperGrades.flatMap((grade) => {
   const orderedSections =
     grade === "IX" ? [...sections, "F"] : sections;
   return orderedSections.map((section) => `Clasa a ${grade}-a ${section}`);
 });
 const upperClasses = baseUpperClasses;
+const twelfthGradeClasses = upperClasses.filter((className) =>
+  className.includes("XII")
+);
+const twelfthGradeLabelMap = buildDualLabelMap(
+  hours,
+  afternoonShiftOffsetHours
+);
+const classHourLabelOverrides = Object.fromEntries(
+  twelfthGradeClasses.map((className) => [className, twelfthGradeLabelMap])
+);
 
 const classGroups = [
   { title: "Clasele V – VIII", classes: lowerClasses },
@@ -54,7 +86,12 @@ export default function Home() {
           <span className={styles.classLabel}>15.12 – 19.12.2025</span>
         </header>
 
-        <ScheduleEditor classGroups={classGroups} days={days} hours={hours} />
+        <ScheduleEditor
+          classGroups={classGroups}
+          days={days}
+          hours={hours}
+          classHourLabelOverrides={classHourLabelOverrides}
+        />
       </main>
     </div>
   );

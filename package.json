@@ -16,6 +16,21 @@
   },
   "devDependencies": {
     "eslint": "^9",
-    "eslint-config-next": "16.0.3"
-  }
+    "eslint-config-next": "16.0.3",
+    "prettier": "^3.6.2"
+  },
+  "description": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zyreoo/scoalaaltfel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/zyreoo/scoalaaltfel/issues"
+  },
+  "homepage": "https://github.com/zyreoo/scoalaaltfel#readme"
 }
