@@ -15,7 +15,7 @@ function getClient() {
   return createClient(supabaseUrl, supabaseServiceKey);
 }
 
-export async function GET() {
+export const GET = async () => {
   const supabase = getClient();
   if (!supabase) {
     return NextResponse.json(
@@ -34,9 +34,9 @@ export async function GET() {
   }
 
   return NextResponse.json({ entries: data ?? [] });
-}
+};
 
-export async function POST(request) {
+export const POST = async (request) => {
   const supabase = getClient();
   if (!supabase) {
     return NextResponse.json(
@@ -74,9 +74,9 @@ export async function POST(request) {
   }
 
   return NextResponse.json({ entry: data });
-}
+};
 
-export async function DELETE(request) {
+export const DELETE = async (request) => {
   const supabase = getClient();
   if (!supabase) {
     return NextResponse.json(
@@ -107,5 +107,5 @@ export async function DELETE(request) {
   }
 
   return NextResponse.json({ success: true });
-}
+};
 

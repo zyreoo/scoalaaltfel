@@ -66,6 +66,172 @@
   gap: 56px;
 }
 
+.partnersSection {
+  border: 1px solid #1f1f1f;
+  background: linear-gradient(135deg, #050505, #0a0a0a);
+  padding: 36px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.partnersHeading {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.partnersHeading p {
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #6d6d6d;
+}
+
+.partnersHeading h2 {
+  font-size: clamp(20px, 3vw, 28px);
+  color: #f5f5f5;
+  letter-spacing: 0.04em;
+}
+
+.partnersForm {
+  border: 1px solid #1f1f1f;
+  background: rgba(255, 255, 255, 0.015);
+  padding: 16px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.partnersForm label {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+.partnersFormControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.partnersInput {
+  flex: 1;
+  border: 1px solid #1f1f1f;
+  background: #0b0b0b;
+  color: #fff;
+  padding: 12px 14px;
+  font-size: 15px;
+}
+
+.partnersSubmit {
+  border: 1px solid #f5f5f5;
+  background: #f5f5f5;
+  color: #050505;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 12px;
+  padding: 12px 20px;
+  min-width: 150px;
+  cursor: pointer;
+}
+
+.partnersSubmit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.partnersHint {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6d6d6d;
+}
+
+.partnersFormStatus {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.partnersFormStatusSuccess {
+  color: #a7f3d0;
+}
+
+.partnersFormStatusError {
+  color: #f87171;
+}
+
+.partnersGrid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+.partnerCard {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid #262626;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f5f5f5;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.partnerDeleteButton {
+  border: none;
+  background: rgba(5, 5, 5, 0.4);
+  color: #f87171;
+  font-size: 16px;
+  line-height: 1;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.partnerDeleteButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.partnersStatus {
+  text-align: center;
+  color: #9ca3af;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.partnersStatus button {
+  border: 1px solid #1f1f1f;
+  background: transparent;
+  color: #f5f5f5;
+  padding: 10px 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 12px;
+  cursor: pointer;
+}
+
 .mobileControls {
   display: none;
 }
@@ -445,6 +611,28 @@
 }
 
 @media (max-width: 768px) {
+  .partnersSection {
+    padding: 28px;
+  }
+
+  .partnersFormControls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .partnersSubmit {
+    width: 100%;
+  }
+
+  .partnersGrid {
+    gap: 10px;
+  }
+
+  .partnerCard {
+    padding: 10px 16px;
+    flex: initial;
+  }
+
   .desktopControls {
     display: none;
   }
@@ -501,6 +689,18 @@
 }
 
 @media (max-width: 600px) {
+  .partnersSection {
+    padding: 24px;
+  }
+
+  .partnersForm {
+    padding: 16px;
+  }
+
+  .partnerCard {
+    width: auto;
+  }
+
   .page {
     padding: 32px 12px 48px;
   }

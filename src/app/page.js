@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ScheduleEditor from "../components/ScheduleEditor";
+import PartnersSection from "../components/PartnersSection";
 import styles from "./page.module.css";
 
 const days = ["Luni", "Marti", "Miercuri", "Joi", "Vineri"];
@@ -92,6 +93,8 @@ export default function Home() {
           hours={hours}
           classHourLabelOverrides={classHourLabelOverrides}
         />
+
+        <PartnersSection />
       </main>
     </div>
   );

@@ -180,7 +180,9 @@ export default function ScheduleEditor({
   async function handleClearSlot() {
     if (!selectedCell) return;
     setFormValues(blankForm);
-    setStatusMessage("Câmpurile au fost golite. Introdu o activitate nouă și apasă Salvează.");
+    setStatusMessage(
+      "Câmpurile au fost golite. Introdu o activitate nouă și apasă Salvează."
+    );
   }
 
   function renderCellButton(className, day, time) {
