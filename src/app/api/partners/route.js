@@ -40,7 +40,7 @@ function normalizePartner(partner, fallbackIndex = 0) {
 
 export const dynamic = "force-dynamic";
 
-export const GET = async () => {
+export async function GET() {
   const supabase = getClient();
   if (!supabase) {
     return NextResponse.json(
@@ -69,9 +69,9 @@ export const GET = async () => {
   );
 
   return NextResponse.json({ partners });
-};
+}
 
-export const POST = async (request) => {
+export async function POST(request) {
   const supabase = getClient();
   if (!supabase) {
     return NextResponse.json(
@@ -104,9 +104,9 @@ export const POST = async (request) => {
   const partner = normalizePartner(data ?? { name: trimmedName });
 
   return NextResponse.json({ partner }, { status: 201 });
-};
+}
 
-export const DELETE = async (request) => {
+export async function DELETE(request) {
   const supabase = getClient();
   if (!supabase) {
     return NextResponse.json(
@@ -135,5 +135,5 @@ export const DELETE = async (request) => {
   }
 
   return NextResponse.json({ success: true });
-};
+}
 

@@ -13,6 +13,7 @@ export default function ScheduleEditor({
   days,
   hours,
   classHourLabelOverrides = {},
+  allowEditing = true,
 }) {
   const [entries, setEntries] = useState({});
   const [selectedCell, setSelectedCell] = useState(null);
@@ -93,6 +94,7 @@ export default function ScheduleEditor({
   }
 
   function handleCellClick(className, day, time) {
+    if (!allowEditing) return;
     const key = entryKey(className, day, time);
     const existing = entries[key];
 
@@ -190,9 +192,34 @@ export default function ScheduleEditor({
     const entry = entries[key];
     const label = entry
       ? `${entry.activity} — ${entry.professor}`
-      : "Adaugă activitate";
+      : allowEditing
+      ? "Adaugă activitate"
+      : "Liber";
 
     const displayTime = getTimeLabel(className, time);
+    const content = entry ? (
+      <div className={styles.cellContent}>
+        <span className={styles.cellActivity}>{entry.activity}</span>
+        <span className={styles.cellProfessor}>{entry.professor}</span>
+      </div>
+    ) : (
+      <span className={styles.cellPlaceholder}>
+        {allowEditing ? "Adaugă" : "Liber"}
+      </span>
+    );
+
+    if (!allowEditing) {
+      return (
+        <div
+          className={styles.cellButton}
+          aria-label={`${className} ${day} ${displayTime}: ${label}`}
+          aria-disabled="true"
+        >
+          {content}
+        </div>
+      );
+    }
+
     return (
       <button
         type="button"
@@ -200,14 +227,7 @@ export default function ScheduleEditor({
         onClick={() => handleCellClick(className, day, time)}
         aria-label={`${className} ${day} ${displayTime}: ${label}`}
       >
-        {entry ? (
-          <div className={styles.cellContent}>
-            <span className={styles.cellActivity}>{entry.activity}</span>
-            <span className={styles.cellProfessor}>{entry.professor}</span>
-          </div>
-        ) : (
-          <span className={styles.cellPlaceholder}>Adaugă</span>
-        )}
+        {content}
       </button>
     );
   }
@@ -373,7 +393,7 @@ export default function ScheduleEditor({
         })}
       </div>
 
-      {modalOpen && (
+      {allowEditing && modalOpen && (
         <div className={styles.modalOverlay} role="dialog" aria-modal="true">
           <div className={styles.modalCard}>
             <header className={styles.modalHeader}>

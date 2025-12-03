@@ -92,6 +92,7 @@ export default function Home() {
           days={days}
           hours={hours}
           classHourLabelOverrides={classHourLabelOverrides}
+          allowEditing={false}
         />
 
         <PartnersSection />

@@ -90,22 +90,4 @@ export const DELETE = async (request) => {
 
   if (!className || !day || !time) {
     return NextResponse.json(
-      { error: "Date insuficiente." },
-      { status: 400 }
-    );
-  }
-
-  const { error } = await supabase
-    .from("schedule_entries")
-    .delete()
-    .eq("class_name", className)
-    .eq("day", day)
-    .eq("time", time);
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  return NextResponse.json({ success: true });
-};
-
+  
