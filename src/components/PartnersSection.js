@@ -134,7 +134,7 @@ export default function PartnersSection() {
     <section className={styles.partnersSection}>
       <div className={styles.partnersHeading}>
         <p>Parteneri & Sponsori</p>
-        <h2>Mulțumim organizațiilor care susțin programul.</h2>
+        <h2>Mulțumim partenerilor!</h2>
       </div>
 
       <form className={styles.partnersForm} onSubmit={handleAddPartner}>
