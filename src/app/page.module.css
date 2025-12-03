@@ -68,18 +68,22 @@
 
 .partnersSection {
   border: 1px solid #1f1f1f;
-  background: linear-gradient(135deg, #050505, #0a0a0a);
-  padding: 36px 40px;
+  border-radius: 32px;
+  background: linear-gradient(135deg, #050505, #0a0a0a 55%);
+  padding: 40px 44px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
+  position: relative;
+  overflow: hidden;
 }
 
 .partnersHeading {
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
+  align-items: center;
 }
 
 .partnersHeading p {
@@ -90,123 +94,62 @@
 }
 
 .partnersHeading h2 {
-  font-size: clamp(20px, 3vw, 28px);
+  font-size: clamp(20px, 3vw, 30px);
   color: #f5f5f5;
   letter-spacing: 0.04em;
 }
 
-.partnersForm {
-  border: 1px solid #1f1f1f;
-  background: rgba(255, 255, 255, 0.015);
-  padding: 16px 18px 20px;
+.partnersSubhead {
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: #c1c1c1;
+  max-width: 560px;
+  line-height: 1.5;
+}
+
+.partnersListBlock {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 26px 28px;
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.partnersForm label {
-  font-size: 12px;
-  letter-spacing: 0.2em;
+.partnersListIntro {
+  font-size: 13px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #9ca3af;
+  color: #8a8a8a;
 }
 
-.partnersFormControls {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.partnersInput {
-  flex: 1;
-  border: 1px solid #1f1f1f;
-  background: #0b0b0b;
-  color: #fff;
-  padding: 12px 14px;
-  font-size: 15px;
-}
-
-.partnersSubmit {
-  border: 1px solid #f5f5f5;
-  background: #f5f5f5;
-  color: #050505;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 12px;
-  padding: 12px 20px;
-  min-width: 150px;
-  cursor: pointer;
-}
-
-.partnersSubmit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.partnersHint {
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #6d6d6d;
-}
-
-.partnersFormStatus {
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.partnersFormStatusSuccess {
-  color: #a7f3d0;
-}
-
-.partnersFormStatusError {
-  color: #f87171;
-}
-
-.partnersGrid {
-  list-style: none;
-  padding: 0;
+.partnersList {
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  justify-content: flex-start;
+  gap: 8px 12px;
+  font-size: clamp(16px, 3vw, 20px);
+  color: #d6d6d6;
+  text-transform: none;
+  line-height: 1.6;
 }
 
-.partnerCard {
+.partnersListItem {
   display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 18px;
-  border-radius: 999px;
-  border: 1px solid #262626;
-  background: rgba(255, 255, 255, 0.06);
-  color: #f5f5f5;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 12px;
-  line-height: 1;
+  align-items: baseline;
+  gap: 8px;
 }
 
-.partnerDeleteButton {
-  border: none;
-  background: rgba(5, 5, 5, 0.4);
-  color: #f87171;
-  font-size: 16px;
-  line-height: 1;
-  width: 26px;
-  height: 26px;
-  border-radius: 999px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.partnersSeparator {
+  color: #4b5563;
+  font-weight: 300;
 }
 
-.partnerDeleteButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.partnersList strong {
+  font-weight: 600;
+  color: #f3f4f6;
 }
 
 .partnersStatus {
@@ -617,25 +560,15 @@
 
 @media (max-width: 768px) {
   .partnersSection {
-    padding: 28px;
+    padding: 32px;
   }
 
-  .partnersFormControls {
-    flex-direction: column;
-    align-items: stretch;
+  .partnersSubhead {
+    font-size: 13px;
   }
 
-  .partnersSubmit {
-    width: 100%;
-  }
-
-  .partnersGrid {
-    gap: 10px;
-  }
-
-  .partnerCard {
-    padding: 10px 16px;
-    flex: initial;
+  .partnersListBlock {
+    padding: 22px 20px;
   }
 
   .desktopControls {
@@ -695,15 +628,11 @@
 
 @media (max-width: 600px) {
   .partnersSection {
-    padding: 24px;
+    padding: 24px 20px;
   }
 
-  .partnersForm {
-    padding: 16px;
-  }
-
-  .partnerCard {
-    width: auto;
+  .partnersList {
+    font-size: 16px;
   }
 
   .page {
