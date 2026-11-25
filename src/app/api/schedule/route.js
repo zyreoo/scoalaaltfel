@@ -10,6 +10,15 @@ if (!supabaseUrl || !supabaseServiceKey) {
   );
 }
 
+const editingClosed = process.env.SCHEDULE_EDITING === "closed";
+
+function editingClosedResponse() {
+  return NextResponse.json(
+    { error: "Editarea orarului este închisă." },
+    { status: 403 }
+  );
+}
+
 function getClient() {
   if (!supabaseUrl || !supabaseServiceKey) return null;
   return createClient(supabaseUrl, supabaseServiceKey);
@@ -37,6 +46,7 @@ export const GET = async () => {
 };
 
 export const POST = async (request) => {
+  if (editingClosed) return editingClosedResponse();
   const supabase = getClient();
   if (!supabase) {
     return NextResponse.json(
@@ -77,6 +87,7 @@ export const POST = async (request) => {
 };
 
 export const DELETE = async (request) => {
+  if (editingClosed) return editingClosedResponse();
   const supabase = getClient();
   if (!supabase) {
     return NextResponse.json(

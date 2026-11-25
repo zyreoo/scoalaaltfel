@@ -3,6 +3,9 @@ import ScheduleEditor from "../components/ScheduleEditor";
 import PartnersSection from "../components/PartnersSection";
 import styles from "./page.module.css";
 
+// Set SCHEDULE_EDITING=closed (in .env / Vercel) to lock the schedule again.
+const editingEnabled = process.env.SCHEDULE_EDITING !== "closed";
+
 const days = ["Luni", "Marti", "Miercuri", "Joi", "Vineri"];
 const hours = [
   "08:00 - 09:00",
@@ -92,7 +95,7 @@ export default function Home() {
           days={days}
           hours={hours}
           classHourLabelOverrides={classHourLabelOverrides}
-          allowEditing={false}
+          allowEditing={editingEnabled}
         />
 
         <PartnersSection />
