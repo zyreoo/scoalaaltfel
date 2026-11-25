@@ -30,14 +30,6 @@ export default function ScheduleEditor({
   const classRefs = useRef({});
 
   useEffect(() => {
-    void loadEntries();
-  }, []);
-
-  useEffect(() => {
-    setActiveClass((prev) => prev || allClasses[0] || "");
-  }, [allClasses]);
-
-  useEffect(() => {
     const refs = classRefs.current;
     Object.keys(refs).forEach((className) => {
       if (!allClasses.includes(className)) {
@@ -74,6 +66,12 @@ export default function ScheduleEditor({
       setStatusMessage(error.message);
     }
   }
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- async fetch, state is set after it resolves
+    void loadEntries();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const orderedGroups = useMemo(
     () =>
