@@ -50,7 +50,7 @@ const upperGrades = ["IX", "X", "XI", "XII"];
 const sections = ["A", "B", "C", "D", "E"];
 const baseUpperClasses = upperGrades.flatMap((grade) => {
   const orderedSections =
-    grade === "IX" ? [...sections, "F"] : sections;
+    grade === "X" ? [...sections, "F"] : sections;
   return orderedSections.map((section) => `Clasa a ${grade}-a ${section}`);
 });
 const upperClasses = baseUpperClasses;
